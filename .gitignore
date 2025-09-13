@@ -1,0 +1,30 @@
+# Ignore build directories
+/build/
+/bin/
+/lib/
+
+# CMake build files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Compiled object files
+*.o
+*.obj
+
+# Compiled static & shared libs
+*.a
+*.so
+*.dylib
+*.lib
+*.dll
+
+# Executables
+*.exe
+*.out
+*.app
+
+# IDE specific
+.vscode/
+.idea/
