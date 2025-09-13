@@ -61,7 +61,6 @@ namespace Code{
         operator double() const {
             return static_cast<double>(amount) / fixedF_I;
         }
-
     };
 
     template<typename TO, typename FROM>
