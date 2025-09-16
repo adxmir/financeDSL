@@ -1,5 +1,5 @@
-#ifndef SQL_H
-#define SQL_H
+#ifndef CURRENCY_H
+#define CURRENCY_H
 
 #include <string_view>
 #include <type_traits>
@@ -7,6 +7,7 @@
 #include <vector>
 #include <ostream>
 #include <iomanip>
+#include <concepts>
 
 
 namespace Code{
@@ -152,6 +153,8 @@ namespace Code{
 
     using AmountInt = unsigned long long;
     constexpr AmountInt fixedF_I = 1000000; //million
+    
+    template<typename T> concept number = std::integral<T> || std::floating_point<T>;
 
     using GBP = Body::GBP;
     using USD = Body::USD;
@@ -161,7 +164,7 @@ namespace Code{
     using CAD = Body::CAD;
     using CHF = Body::CHF;
     using AUD = Body::AUD;
-    using INR = Body::INR;
+    using INR = Body::INR; 
 
     template<typename T>
     struct Money{
@@ -175,15 +178,19 @@ namespace Code{
             return static_cast<double>(amount) / fixedF_I;
         }
 
-        Money operator +(const Money<T>& other) const {return Money<T>(amount + other.amount, 0);}
+        template<number TYPE> constexpr Money operator/(const TYPE val){return Money<T>(amount / val);}
+        template<number TYPE> constexpr Money operator *(const TYPE multiplier) const {return Money<T>(amount * multiplier,0);}
+        constexpr Money operator +(const Money<T>& other) const {return Money<T>(amount + other.amount, 0);}
+        constexpr Money operator-(const Money<T>& other) const {return Money<T>(amount - other.amount,0);}
+        constexpr bool operator>(const Money<T>& other) const{return amount > other.amount;}
+        constexpr bool operator<(const Money<T>& other) const{return amount < other.amount;}
 
-        Money operator-(const Money<T>& other) const {return Money<T>(amount - other.amount,0);}
-
-        template<typename notT>
-        Money operator-(const Money<notT>& other) const = delete;
-
-        template<typename notT>
-        Money operator +(const Money<notT>& other) const = delete;
+        template<number TYPE> constexpr auto operator+(const TYPE) const = delete;
+        template<number TYPE> constexpr auto operator-(const TYPE) const = delete;
+        template<typename notT> constexpr Money operator-(const Money<notT>& other) const = delete;
+        template<typename notT> constexpr Money operator+(const Money<notT>& other) const = delete;
+        template<typename notT> constexpr bool operator>(const Money<notT>&other) = delete;
+        template<typename notT> constexpr bool operator<(const Money<notT>&other) = delete;
 
         Money operator-() const = delete;
 
