@@ -4,6 +4,4 @@
 #include "currency.hpp"
 using namespace Code;
 
-
-
 #endif

@@ -26,3 +26,21 @@ TEST(Currency, codeAddition){
     s << m3;
     ASSERT_STREQ(s.str().c_str(), "252403.230955");
 }
+
+TEST(Currency, codeConversion){
+    Money<GBP> gbpAmount(50);
+    Money<JPY> jpyAmount = convert<GBP,JPY>(gbpAmount); // Direct conversion
+    Money<LKR> lkrAmount = convert<GBP,LKR> (gbpAmount); //Indirect conversion
+
+    EXPECT_NEAR(double(jpyAmount), 9500, 0.001);
+    EXPECT_NEAR(double(lkrAmount), 19475, 0.001);
+
+    Money<USD> usdAmount(250.20);
+    Money<AUD> audAmount = convert<USD,AUD>(usdAmount);
+    Money<GBP> gbpAmount2 = convert<AUD,GBP>(audAmount);
+
+    EXPECT_NEAR(double(audAmount) , 375.3, 0.001);
+    EXPECT_NEAR(double(gbpAmount2), 276.5961, 0.001);
+
+    
+}
