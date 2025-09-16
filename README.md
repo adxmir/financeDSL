@@ -8,13 +8,13 @@ Avoid floating-point rounding errors and ensure safe currency operations at comp
 - **Type-safe currencies** (e.g., USD, EUR) — prevents mixing different currency types accidentally  
 - **Fixed-point arithmetic** — stores money as scaled integers, preserving decimal accuracy  
 - Overloaded operators for clean and natural syntax  
-- **Conversion support** — compile-time checked conversions between currencies  
+- **Conversion support** — compile-time checked direct and indirect conversions between currencies  
 - Unit tests with GoogleTest  
 
 ---
 
 ## To Do
 - **Further improve floating point accuracy**
-- **Extend DSL to support more currencies and use recent conversion rates**
-- **Add more functionality** 
+- **Extend DSL to utilise upto date conversion rates**
+- **Increase DSL functionality** 
 
