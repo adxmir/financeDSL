@@ -41,6 +41,4 @@ TEST(Currency, codeConversion){
 
     EXPECT_NEAR(double(audAmount) , 375.3, 0.001);
     EXPECT_NEAR(double(gbpAmount2), 276.5961, 0.001);
-
-    
 }

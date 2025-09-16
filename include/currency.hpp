@@ -85,7 +85,7 @@ namespace Code{
         template<typename... Ts>
         struct type_list {};
 
-        using Currencies = type_list<GBP,USD,JPY,EUR, LKR, AUD, CAD, CHF>; 
+        using Currencies = type_list<GBP,USD,JPY,EUR, LKR, AUD, CAD, CHF,INR>; 
 
         //Valid determined by whether direction conversion exists
         template<typename FROM, typename TO, typename = void>
