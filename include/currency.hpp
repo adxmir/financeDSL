@@ -120,7 +120,7 @@ namespace Code{
                 } 
                 //Indirect conversion found;
                 else if constexpr(conversion<FROM,curr>::valid && conversion<curr,TO>::valid){
-                    return conversion<FROM,curr>::rate * conversion_search<curr,TO, Currencies>::rate();
+                    return conversion<FROM,curr>::rate * conversion<curr,TO>::rate;
                 }
                 //Check next code in currencies 
                 else{
@@ -167,8 +167,9 @@ namespace Code{
     struct Money{
         using code = T;
         AmountInt amount;
-        constexpr Money(double amount_) : amount(static_cast<AmountInt>(amount_* fixedF_I)){};
-        constexpr Money(int amount_) : amount(amount_ * fixedF_I){};
+        constexpr Money(double amount_) : amount(static_cast<AmountInt>(amount_* fixedF_I)){
+           if(amount_ < 0){throw "Cannot have negative money";}
+        };
 
         operator double() const {
             return static_cast<double>(amount) / fixedF_I;
@@ -176,8 +177,15 @@ namespace Code{
 
         Money operator +(const Money<T>& other) const {return Money<T>(amount + other.amount, 0);}
 
+        Money operator-(const Money<T>& other) const {return Money<T>(amount - other.amount,0);}
+
+        template<typename notT>
+        Money operator-(const Money<notT>& other) const = delete;
+
         template<typename notT>
         Money operator +(const Money<notT>& other) const = delete;
+
+        Money operator-() const = delete;
 
         private:
         constexpr Money(AmountInt amountScaled, int) : amount(amountScaled){};
@@ -205,6 +213,34 @@ namespace Code{
         msg << after_D << '.' <<  std::setw(6) << std::setfill('0') << before_D;
         return msg;
         }
+
+   
+    consteval Money<GBP> operator ""_GBP(unsigned long long amount){return Money<GBP>(amount);} 
+    consteval Money<GBP> operator ""_GBP(long double amount){return Money<GBP>(amount);} 
+
+    consteval Money<USD> operator ""_USD(unsigned long long amount){return Money<USD>(amount);} 
+    consteval Money<USD> operator ""_USD(long double amount){return Money<USD>(amount);} 
+
+    consteval Money<AUD> operator ""_AUD(unsigned long long amount){return Money<AUD>(amount);} 
+    consteval Money<AUD> operator ""_AUD(long double amount){return Money<AUD>(amount);} 
+
+    consteval Money<JPY> operator ""_JPY(unsigned long long amount){return Money<JPY>(amount);} 
+    consteval Money<JPY> operator ""_JPY(long double amount){return Money<JPY>(amount);} 
+
+    consteval Money<CAD> operator ""_CAD(unsigned long long amount){return Money<CAD>(amount);} 
+    consteval Money<CAD> operator ""_CAD(long double amount){return Money<CAD>(amount);} 
+
+    consteval Money<INR> operator ""_INR(unsigned long long amount){return Money<INR>(amount);} 
+    consteval Money<INR> operator ""_INR(long double amount){return Money<INR>(amount);} 
+
+    consteval Money<EUR> operator ""_EUR(unsigned long long amount){return Money<EUR>(amount);} 
+    consteval Money<EUR> operator ""_EUR(long double amount){return Money<EUR>(amount);} 
+
+    consteval Money<CHF> operator ""_CHF(unsigned long long amount){return Money<CHF>(amount);} 
+    consteval Money<CHF> operator ""_CHF(long double amount){return Money<CHF>(amount);} 
+
+    consteval Money<LKR> operator ""_LKR(unsigned long long amount){return Money<LKR>(amount);} 
+    consteval Money<LKR> operator ""_LKR(long double amount){return Money<LKR>(amount);} 
 }
 
 #endif

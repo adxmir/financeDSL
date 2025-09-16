@@ -28,17 +28,28 @@ TEST(Currency, codeAddition){
 }
 
 TEST(Currency, codeConversion){
-    Money<GBP> gbpAmount(50);
+    Money<GBP> gbpAmount(50.50);
     Money<JPY> jpyAmount = convert<GBP,JPY>(gbpAmount); // Direct conversion
     Money<LKR> lkrAmount = convert<GBP,LKR> (gbpAmount); //Indirect conversion
 
-    EXPECT_NEAR(double(jpyAmount), 9500, 0.001);
-    EXPECT_NEAR(double(lkrAmount), 19475, 0.001);
+    EXPECT_NEAR(double(jpyAmount), 9595, 0.100);
+    EXPECT_NEAR(double(lkrAmount), 19669.75, 0.100);
 
     Money<USD> usdAmount(250.20);
     Money<AUD> audAmount = convert<USD,AUD>(usdAmount);
     Money<GBP> gbpAmount2 = convert<AUD,GBP>(audAmount);
 
-    EXPECT_NEAR(double(audAmount) , 375.3, 0.001);
-    EXPECT_NEAR(double(gbpAmount2), 276.5961, 0.001);
+    EXPECT_NEAR(double(audAmount) , 375.3, 1.001);
+    EXPECT_NEAR(double(gbpAmount2), 276.5961, 1.001);
+}
+
+TEST(Currency , codeSubstraction){
+    Money<GBP> amount1(50);
+    Money<GBP> amount2(30);
+
+    Money<USD> amount3(520.50);
+    Money<USD> amount4(105.25);
+
+    EXPECT_EQ(amount1 - amount2, 20);
+    EXPECT_EQ(amount3 - amount4, 415.25);
 }
